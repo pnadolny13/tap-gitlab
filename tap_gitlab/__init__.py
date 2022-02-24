@@ -379,6 +379,9 @@ def sync_issues(project):
     url = get_url(entity=entity, id=project['id'], start_date=start_date)
     with Transformer(pre_hook=format_timestamp) as transformer:
         for row in gen_request(url):
+            # Author Usernames
+            row["author_username"] = row.get("author", {}).get("username")
+
             flatten_id(row, "author")
             flatten_id(row, "assignee")
             flatten_id(row, "epic")
@@ -390,9 +393,6 @@ def sync_issues(project):
             for assignee in row.get("assignees"):
                 assignee_ids.append(assignee["id"])
             row["assignees"] = assignee_ids
-
-            # Author Usernames
-            row["author_username"] = row.get("author", {}).get("username")
 
             # Get the time_stats
             time_stats = row.get("time_stats")
@@ -428,6 +428,9 @@ def sync_merge_requests(project):
     url = get_url(entity=entity, id=project['id'], start_date=start_date)
     with Transformer(pre_hook=format_timestamp) as transformer:
         for row in gen_request(url):
+            # Author Usernames
+            row["author_username"] = row.get("author", {}).get("username")
+
             flatten_id(row, "author")
             flatten_id(row, "assignee")
             flatten_id(row, "milestone")
@@ -445,9 +448,6 @@ def sync_merge_requests(project):
             for reviewer in row.get("reviewers"):
                 reviewer_ids.append(reviewer["id"])
             row["reviewers"] = reviewer_ids
-
-            # Author Usernames
-            row["author_username"] = row.get("author", {}).get("username")
 
             # Get the time_stats
             time_stats = row.get("time_stats")
