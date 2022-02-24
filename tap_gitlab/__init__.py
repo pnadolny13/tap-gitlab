@@ -391,6 +391,9 @@ def sync_issues(project):
                 assignee_ids.append(assignee["id"])
             row["assignees"] = assignee_ids
 
+            # Author Usernames
+            row["author_username"] = row.get("author", {}).get("username")
+
             # Get the time_stats
             time_stats = row.get("time_stats")
             if time_stats:
@@ -442,6 +445,9 @@ def sync_merge_requests(project):
             for reviewer in row.get("reviewers"):
                 reviewer_ids.append(reviewer["id"])
             row["reviewers"] = reviewer_ids
+
+            # Author Usernames
+            row["author_username"] = row.get("author", {}).get("username")
 
             # Get the time_stats
             time_stats = row.get("time_stats")
